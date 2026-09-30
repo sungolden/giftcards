@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Holiday Gift Card Sales Tracker</title>
+
+  <style>
+    :root {
+      --purple: #650c35;
+      --magenta: #ba2028;
+      --yellow: #c49a79;
+      --yellow-dark: #a77553;
+      --blue: #5a302b;
+      --blue-light: #e4d7da;
+      --text: #650c35;
+      --muted: #795b67;
+      --paper: #ffffff;
+      --border: #e7c7cb;
+      --button-bg: #fff8f6;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: transparent;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      padding: 0 8px 8px;
+    }
+
+    .widget {
+      width: min(560px, 100%);
+      margin: 0 auto;
+      background: var(--paper);
+      border: 1px solid var(--purple);
+      border-radius: 14px;
+      padding: 0 14px 14px;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .event-title {
+      margin: -4px 0 0;
+      font-size: clamp(1.45rem, 4.5vw, 2.5rem);
+      font-weight: 900;
+      line-height: 0.9;
+      letter-spacing: -0.05em;
+      color: var(--purple);
+      text-transform: uppercase;
+    }
+
+    .event-title span {
+      display: block;
+      color: var(--magenta);
+    }
+
+    .goal-pill {
+      width: min(330px, 100%);
+      margin: 0 auto 6px;
+      border-radius: 999px;
+      border: 7px solid var(--yellow);
+      overflow: hidden;
+      background: white;
+    }
+
+    .goal-amount {
+      padding: 7px 12px 4px;
+      font-size: clamp(1.45rem, 4vw, 2.15rem);
+      font-weight: 900;
+      color: var(--purple);
+      line-height: 1;
+    }
+
+    .goal-label {
+      background: var(--yellow);
+      color: white;
+      font-size: clamp(1rem, 3vw, 1.45rem);
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      padding: 0 10px 5px;
+      line-height: 1;
+    }
+
+    .total-readout {
+      margin: 2px auto 8px;
+      color: var(--purple);
+    }
+
+    .total-meta {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 800;
+      margin-bottom: 3px;
+    }
+
+    .total-meta .dot {
+      opacity: 0.7;
+    }
+
+    .total-amount {
+      font-size: clamp(1.05rem, 3vw, 1.55rem);
+      font-weight: 900;
+      line-height: 1.05;
+    }
+
+    .main-area {
+      display: grid;
+      grid-template-columns: minmax(170px, 220px) minmax(185px, 1fr);
+      gap: 14px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .thermometer-wrap {
+      display: grid;
+      place-items: center;
+      min-height: 350px;
+    }
+
+    .thermometer-svg {
+      width: min(200px, 100%);
+      height: auto;
+      display: block;
+      overflow: visible;
+    }
+
+    .controls {
+      align-self: center;
+      text-align: left;
+    }
+
+    .controls h2 {
+      margin: 0 0 5px;
+      font-size: 0.95rem;
+      color: var(--purple);
+    }
+
+    .controls p {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 0.72rem;
+      line-height: 1.3;
+    }
+
+    .button-grid {
+      display: grid;
+      gap: 6px;
+    }
+
+    .piece-button {
+      appearance: none;
+      border: 1.5px solid var(--border);
+      background: var(--button-bg);
+      color: var(--purple);
+      border-radius: 10px;
+      padding: 7px 9px;
+      min-height: 42px;
+      cursor: pointer;
+      text-align: left;
+      font: inherit;
+      transition: transform 120ms ease, background 120ms ease, border-color 120ms ease;
+    }
+
+    .piece-button:hover {
+      transform: translateY(-1px);
+      border-color: var(--magenta);
+    }
+
+    .piece-button.is-active {
+      background: #f4d5d9;
+      border-color: #ba2028;
+      color: #650c35;
+    }
+
+    .piece-button.is-active strong,
+    .piece-button.is-active span {
+      color: #650c35;
+    }
+
+    .piece-button strong {
+      display: block;
+      font-size: 0.76rem;
+      line-height: 1.12;
+    }
+
+    .piece-button span {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 800;
+      margin-top: 2px;
+    }
+
+    .button-actions {
+      display: flex;
+      justify-content: flex-start;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .text-button {
+      appearance: none;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      font: inherit;
+      font-size: 0.72rem;
+      font-weight: 800;
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      padding: 0;
+    }
+
+    @media (max-width: 470px) {
+      .widget {
+        padding: 12px 10px;
+      }
+
+      .main-area {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .controls {
+        width: min(320px, 100%);
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .button-actions {
+        justify-content: center;
+      }
+
+      .thermometer-wrap {
+        min-height: 320px;
+      }
+
+      .thermometer-svg {
+        width: min(180px, 100%);
+      }
+    }
+
+    .holiday-header {
+      margin: 0 -14px 14px;
+      padding: 17px 14px 15px;
+      background-color: #ba2028;
+      background-image: radial-gradient(circle at 9px 10px, #ffffff50 0.8px, transparent 1.3px), radial-gradient(circle at 25px 30px, #ffffff30 0.6px, transparent 1.2px);
+      background-size: 41px 43px, 53px 59px;
+      color: #ffffff;
+    }
+    .eyebrow { margin: 0 0 6px; font-size: .68rem; letter-spacing: .18em; text-transform: uppercase; }
+    .holiday-header h1 { margin: 0; font-family: 'Arial Narrow', Arial, sans-serif; font-size: clamp(1.5rem, 5vw, 2rem); line-height: 1.02; font-weight: 900; letter-spacing: -.025em; }
+    .holiday-header h1 span { display: block; }
+    .header-note { margin: 7px 0 0; font-family: Georgia, serif; font-size: .88rem; font-style: italic; }
+    .goal-pill { margin-bottom: 10px; }
+    .goal-label { font-size: .92rem; letter-spacing: .015em; line-height: 1.2; padding-top: 5px; color: #4c241e; }
+    .goal-amount { font-size: 1.7rem; padding: 9px 8px 7px; }
+    .total-amount { font-size: 1.7rem; }
+    .piece-button.is-active { background: #f4d5d9; border-color: #ba2028; color: #650c35; }
+    .piece-button { min-height: 44px; }
+    .piece-button:focus-visible, .text-button:focus-visible { outline: 3px solid #650c35; outline-offset: 3px; }
+    .text-button { min-height: 32px; }
+    .holiday-footer { margin: 12px -14px -14px; padding: 11px 12px; background: #f4d5d9; font-family: Georgia, serif; font-style: italic; font-size: .78rem; color: #650c35; }
+    @media (max-width: 470px) {
+      .widget { padding-top: 0; }
+      .holiday-header { margin-left: -10px; margin-right: -10px; }
+      .holiday-footer { margin: 12px -10px -12px; }
+      .text-button { min-height: 44px; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="widget">
+    <header class="holiday-header">
+      <p class="eyebrow">A little holiday cheer</p>
+      <h1>HOLIDAY <span>GIFT CARDS</span></h1>
+      <p class="header-note">Give something sweet.</p>
+    </header>
+<section class="goal-pill" aria-label="Gift card sales goal">
+      <div class="goal-amount" id="goalAmount">Set goal</div>
+      <div class="goal-label">GIFT CARD SALES GOAL</div>
+    </section>
+
+    <div class="total-readout" aria-live="polite">
+      <div class="total-meta">
+        <span>Gift card sales</span>
+        <span class="dot">•</span>
+        <span id="percentMeta">0% to goal</span>
+      </div>
+      <div class="total-amount" id="totalRaised">$0</div>
+    </div>
+
+    <section class="main-area">
+      <div class="thermometer-wrap">
+        <svg class="thermometer-svg" viewBox="0 0 320 560" aria-label="Gift card sales thermometer" role="img">
+          <defs>
+            <clipPath id="stemClip">
+              <rect id="stemClipRect" x="130" y="26" width="60" height="330" rx="8" ry="8"></rect>
+            </clipPath>
+          </defs>
+
+          <!-- outer light-blue silhouette -->
+          <circle cx="160" cy="430" r="100" fill="#e4d7da"></circle>
+          <rect x="98" y="340" width="124" height="48" rx="16" fill="#e4d7da"></rect>
+          <rect x="98" y="8" width="124" height="360" rx="22" fill="#e4d7da"></rect>
+
+          <!-- inner dark-blue silhouette -->
+          <circle cx="160" cy="430" r="82" fill="#5a302b"></circle>
+          <rect x="116" y="340" width="88" height="42" rx="14" fill="#5a302b"></rect>
+          <rect x="116" y="18" width="88" height="340" rx="16" fill="#5a302b"></rect>
+
+          <!-- bulb and neck are always yellow -->
+          <circle cx="160" cy="430" r="68" fill="#ba2028"></circle>
+          <!-- adjusted to match the actual stem/bar thickness -->
+          <rect x="130" y="338" width="60" height="56" rx="10" fill="#ba2028"></rect>
+
+          <!-- white empty stem background -->
+          <rect x="130" y="26" width="60" height="330" rx="8" fill="#ffffff"></rect>
+
+          <!-- stacked fill segments injected by JS -->
+          <g id="stemSegments" clip-path="url(#stemClip)"></g>
+        </svg>
+      </div>
+
+      <aside class="controls">
+        <h2>Sales by Market</h2>
+        <p>Choose which markets to include in the total. How does your group measure up?</p>
+        <div class="button-grid" id="buttonGrid"></div>
+
+        <div class="button-actions">
+          <button class="text-button" id="selectAllButton" type="button">Select all</button>
+          <button class="text-button" id="clearAllButton" type="button">Clear all</button>
+        </div>
+      </aside>
+    </section>
+    <footer class="holiday-footer">Make every guest conversation a little sweeter.</footer>
+  </main>
+
+  <script>
+    /* DAILY UPDATES
+       1. Replace null with the confirmed dollar goal (plain number, no commas).
+       2. Update each market's amount below. Current amounts are blank-start zeros.
+       3. Market names were retained from the previous widget; edit as needed.
+       4. Upload the revised HTML to update totals for everyone.
+       Selections are remembered only on the viewer's browser/device.
+       Palette and holiday header can be updated when final assets arrive.
+       No promotion dates or bonus offer are assumed from the 2025 reference.
+    */
+    const goal = null; // Example: 350000. Leave null until the goal is confirmed.
+    const pieces = [
+      { id: "piece1", label: "Columbus/Outer Markets: Big Pack", amount: 0 },
+      { id: "piece2", label: "Columbus/Outer Markets: Little Pack", amount: 0 },
+      { id: "piece3", label: "Cincinnati (Non-Bakery)/Dayton", amount: 0 },
+      { id: "piece4", label: "Cincinnati: Large", amount: 0 },
+      { id: "piece5", label: "Cincinnati: Lil", amount: 0 },
+      { id: "piece6", label: "Louisville/Indianapolis/Lexington", amount: 0 }
+    ];
+
+    const storageKey = "holiday-gift-card-sales-v1";
+    const allPieceIds = pieces.map(piece => piece.id);
+
+    const money = new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      maximumFractionDigits: 0
+    });
+
+    const buttonGrid = document.getElementById("buttonGrid");
+    const totalRaised = document.getElementById("totalRaised");
+    const goalAmount = document.getElementById("goalAmount");
+    const percentMeta = document.getElementById("percentMeta");
+    const stemSegments = document.getElementById("stemSegments");
+
+    const STEM_X = 130;
+    const STEM_Y = 26;
+    const STEM_WIDTH = 60;
+    const STEM_HEIGHT = 330;
+
+    let selected = loadSelectedPieces();
+
+    const hasGoal = Number.isFinite(goal) && goal > 0;
+    goalAmount.textContent = hasGoal ? money.format(goal) : "Goal coming soon";
+
+    function loadSelectedPieces() {
+      try {
+        const savedRaw = localStorage.getItem(storageKey);
+
+        if (savedRaw === null) {
+          return [...allPieceIds];
+        }
+
+        const saved = JSON.parse(savedRaw);
+        return Array.isArray(saved) ? saved.filter(id => allPieceIds.includes(id)) : [...allPieceIds];
+      } catch {
+        return [...allPieceIds];
+      }
+    }
+
+    function saveSelectedPieces() {
+      try { localStorage.setItem(storageKey, JSON.stringify(selected)); } catch { /* Works even if storage is blocked. */ }
+    }
+
+    function renderButtons() {
+      const focusedId = document.activeElement?.dataset?.id;
+      buttonGrid.innerHTML = "";
+
+      pieces.forEach(piece => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "piece-button";
+        button.dataset.id = piece.id;
+        button.setAttribute("aria-pressed", String(selected.includes(piece.id)));
+        const label = document.createElement("strong");
+        label.textContent = piece.label;
+        const value = document.createElement("span");
+        value.textContent = money.format(piece.amount);
+        button.append(label, value);
+
+        if (selected.includes(piece.id)) {
+          button.classList.add("is-active");
+        }
+
+        button.addEventListener("click", () => {
+          if (selected.includes(piece.id)) {
+            selected = selected.filter(id => id !== piece.id);
+          } else {
+            selected.push(piece.id);
+          }
+
+          saveSelectedPieces();
+          render();
+        });
+
+        buttonGrid.appendChild(button);
+        if (focusedId === piece.id) button.focus();
+      });
+    }
+
+    function renderThermometer() {
+      stemSegments.innerHTML = "";
+
+      const activePieces = pieces.filter(piece => selected.includes(piece.id));
+      const total = activePieces.reduce((sum, piece) => sum + piece.amount, 0);
+      const cappedTotal = hasGoal ? Math.min(total, goal) : 0;
+      const percent = goal > 0 ? cappedTotal / goal : 0;
+
+      totalRaised.textContent = hasGoal && total >= goal ? money.format(total) + " 🎉" : money.format(total);
+      percentMeta.textContent = hasGoal ? Math.round(total / goal * 100) + "% to goal" : "Goal not set yet";
+      document.querySelector(".thermometer-svg").setAttribute("aria-label", `Gift card sales: ${money.format(total)}${hasGoal ? " of " + money.format(goal) : "; goal not set yet"}`);
+      if (!hasGoal) return;
+
+      let currentBottom = STEM_Y + STEM_HEIGHT;
+      let remainingVisibleGoal = goal;
+
+      activePieces.forEach(piece => {
+        const visibleAmount = Math.min(piece.amount, remainingVisibleGoal);
+        if (visibleAmount <= 0) return;
+
+        const segHeight = STEM_HEIGHT * (visibleAmount / goal);
+        currentBottom -= segHeight;
+
+        const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+        rect.setAttribute("x", STEM_X);
+        rect.setAttribute("y", currentBottom);
+        rect.setAttribute("width", STEM_WIDTH);
+        rect.setAttribute("height", segHeight);
+        rect.setAttribute("fill", "#ba2028");
+        stemSegments.appendChild(rect);
+
+        remainingVisibleGoal -= visibleAmount;
+      });
+    }
+
+    function render() {
+      renderButtons();
+      renderThermometer();
+    }
+
+    document.getElementById("selectAllButton").addEventListener("click", () => {
+      selected = [...allPieceIds];
+      saveSelectedPieces();
+      render();
+    });
+
+    document.getElementById("clearAllButton").addEventListener("click", () => {
+      selected = [];
+      saveSelectedPieces();
+      render();
+    });
+
+    render();
+  </script>
+</body>
+</html>
