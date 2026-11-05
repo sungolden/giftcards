@@ -16,19 +16,21 @@ body { margin:0; padding:8px; background:transparent; color:var(--ink); font-fam
 .tick:hover .tick-tip,.tick:focus .tick-tip,.tick.is-open .tick-tip { visibility:visible; }
 .tick:focus-visible .hit { stroke:#991b2b; stroke-width:1; }
 
-header { padding:20px 12px 0; text-align:center; }
-h1 { margin:0; font-size:12px; line-height:1.4; letter-spacing:1.6px; font-weight:700; color:var(--cranberry); }
-.content { padding:8px 16px 20px; }
-.goal { text-align:center; font-size:14px; color:var(--muted); }
-.goal strong { color:var(--ink); font-size:17px; }
-.progress { display:flex; flex-direction:column; align-items:center; padding-top:10px; }
-.thermometer { overflow:visible; display:block; width:259px; height:360px; flex:none; filter:drop-shadow(0 5px 5px #991b2b12); }
-.readout { text-align:center; padding-top:5px; }
-.label { color:var(--muted); font-size:11px; font-weight:700; letter-spacing:1.1px; }
-.total { display:block; margin:2px 0 5px; color:var(--cranberry); font-size:32px; font-weight:800; letter-spacing:-.8px; }
-.percent { font-size:15px; font-weight:700; color:var(--cranberry); }
-.caption { display:inline; margin:0; font-size:13px; color:var(--muted); }
-@media(max-width:350px) { .thermometer { height:330px; width:237px; } header { padding-top:16px; } }
+header { padding:18px 12px 0; text-align:center; }
+h1 { margin:0; font-size:20px; line-height:1.2; letter-spacing:.5px; font-weight:800; color:var(--cranberry); }
+.content { padding:10px 16px 18px; }
+.goal { text-align:center; font-size:17px; color:var(--muted); }
+.goal strong { color:var(--ink); font-size:27px; }
+.progress { display:flex; flex-direction:column; align-items:center; padding-top:12px; }
+.thermometer { overflow:visible; display:block; width:245px; height:340px; flex:none; filter:drop-shadow(0 5px 5px #991b2b12); }
+.readout { width:100%; display:grid; grid-template-columns:minmax(0,1.3fr) minmax(0,1fr); align-items:center; gap:10px; text-align:center; padding-top:14px; border-top:1px solid #ecd9dd; }
+.total-block { min-width:0; }
+.percent-block { border-left:1px solid #ecd9dd; padding:8px 0 8px 10px; }
+.label { color:var(--muted); font-size:14px; font-weight:700; letter-spacing:1px; }
+.total { display:block; margin:2px 0 5px; color:var(--cranberry); font-size:clamp(30px,8vw,42px); font-weight:800; letter-spacing:-.8px; }
+.percent { font-size:27px; font-weight:800; color:var(--cranberry); }
+.caption { display:inline; margin:0; font-size:15px; color:var(--muted); }
+@media(max-width:350px) { .thermometer { height:320px; width:230px; } header { padding-top:16px; } }
 </style>
 </head>
 <body>
@@ -39,13 +41,13 @@ h1 { margin:0; font-size:12px; line-height:1.4; letter-spacing:1.6px; font-weigh
 <div class="progress">
 <svg class="thermometer" viewBox="-45 0 230 320" role="group" aria-labelledby="thermometerTitle">
 <title id="thermometerTitle">Sales progress thermometer</title>
-<defs><clipPath id="stemClip"><rect x="55" y="24" width="30" height="208" rx="15"/></clipPath></defs>
+<defs><clipPath id="stemClip"><rect x="50" y="24" width="40" height="208" rx="15"/></clipPath></defs>
 <!-- One continuous stem, with a traditional filled bulb. -->
-<path d="M45 221 V29 A25 25 0 0 1 95 29 V221 A43 43 0 1 1 45 221Z" fill="#fff0f3" stroke="#991b2b" stroke-width="5"/>
-<rect x="55" y="24" width="30" height="218" rx="15" fill="#fff"/>
-<rect id="fill" x="55" y="232" width="30" height="0" fill="#991b2b" clip-path="url(#stemClip)"/>
-<path d="M55 231 H85 V252 H55Z" fill="#991b2b"/>
-<circle cx="70" cy="255" r="31" fill="#991b2b"/>
+<path d="M41 216 V33 A29 29 0 0 1 99 33 V216 A48 48 0 1 1 41 216Z" fill="#fff0f3" stroke="#991b2b" stroke-width="5"/>
+<rect x="50" y="24" width="40" height="218" rx="15" fill="#fff"/>
+<rect id="fill" x="50" y="232" width="40" height="0" fill="#991b2b" clip-path="url(#stemClip)"/>
+<path d="M50 231 H90 V252 H50Z" fill="#991b2b"/>
+<circle cx="70" cy="254" r="36" fill="#991b2b"/>
 <g class="tick" transform="translate(0 200.0000)" tabindex="0" role="button" aria-label="$100,000 milestone" aria-expanded="false">
 <rect class="hit" x="101" y="-12" width="25" height="24" rx="4" fill="transparent"/>
 <path class="tick-line" d="M107 0h12"/>
@@ -78,8 +80,8 @@ h1 { margin:0; font-size:12px; line-height:1.4; letter-spacing:1.6px; font-weigh
 </g>
 </svg>
 <div class="readout" id="progress" role="progressbar" aria-label="Gift card sales toward the company goal" aria-valuemin="0" aria-valuemax="650000" aria-valuenow="0">
-<span class="label">TOTAL</span><strong class="total" id="total">$0</strong>
-<span class="percent" id="percent">0%</span>&nbsp;<span class="caption">of our goal</span>
+<div class="total-block"><span class="label">TOTAL</span><strong class="total" id="total">$0</strong></div>
+<div class="percent-block"><span class="percent" id="percent">0%</span><br><span class="caption">of our goal</span></div>
 </div>
 </div>
 </div>
