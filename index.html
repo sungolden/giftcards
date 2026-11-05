@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026 Gift Card Sales</title>
+<style>
+:root { --cranberry:#991b2b; --blush:#fff0f3; --ink:#352326; --muted:#70565c; }
+* { box-sizing:border-box; }
+body { margin:0; padding:8px; background:transparent; color:var(--ink); font-family:Arial,Helvetica,sans-serif; }
+.widget { position:relative; isolation:isolate; width:100%; max-width:460px; margin:auto; overflow:hidden; border:5px solid transparent; border-radius:18px; background:linear-gradient(#fff,#fff) padding-box,repeating-linear-gradient(45deg,var(--cranberry) 0 9px,#fff 9px 18px) border-box; }
+.tick { cursor:pointer; outline:none; }
+.tick-line { stroke:#a66a78; stroke-width:2; stroke-linecap:round; }
+.tick:hover .tick-line,.tick:focus .tick-line,.tick.is-open .tick-line { stroke:#991b2b; stroke-width:3; }
+.tick-tip { visibility:hidden; pointer-events:none; }
+.tick:hover .tick-tip,.tick:focus .tick-tip,.tick.is-open .tick-tip { visibility:visible; }
+.tick:focus-visible .hit { stroke:#991b2b; stroke-width:1; }
+
+header { padding:20px 12px 0; text-align:center; }
+h1 { margin:0; font-size:12px; line-height:1.4; letter-spacing:1.6px; font-weight:700; color:var(--cranberry); }
+.content { padding:8px 16px 20px; }
+.goal { text-align:center; font-size:14px; color:var(--muted); }
+.goal strong { color:var(--ink); font-size:17px; }
+.progress { display:flex; flex-direction:column; align-items:center; padding-top:10px; }
+.thermometer { overflow:visible; display:block; width:259px; height:360px; flex:none; filter:drop-shadow(0 5px 5px #991b2b12); }
+.readout { text-align:center; padding-top:5px; }
+.label { color:var(--muted); font-size:11px; font-weight:700; letter-spacing:1.1px; }
+.total { display:block; margin:2px 0 5px; color:var(--cranberry); font-size:32px; font-weight:800; letter-spacing:-.8px; }
+.percent { font-size:15px; font-weight:700; color:var(--cranberry); }
+.caption { display:inline; margin:0; font-size:13px; color:var(--muted); }
+@media(max-width:350px) { .thermometer { height:330px; width:237px; } header { padding-top:16px; } }
+</style>
+</head>
+<body>
+<main class="widget" aria-labelledby="heading">
+<header><h1 id="heading">2026 GIFT CARD SALES</h1></header>
+<div class="content">
+<div class="goal">Company goal: <strong>$650,000</strong></div>
+<div class="progress">
+<svg class="thermometer" viewBox="-45 0 230 320" role="group" aria-labelledby="thermometerTitle">
+<title id="thermometerTitle">Sales progress thermometer</title>
+<defs><clipPath id="stemClip"><rect x="55" y="24" width="30" height="208" rx="15"/></clipPath></defs>
+<!-- One continuous stem, with a traditional filled bulb. -->
+<path d="M45 221 V29 A25 25 0 0 1 95 29 V221 A43 43 0 1 1 45 221Z" fill="#fff0f3" stroke="#991b2b" stroke-width="5"/>
+<rect x="55" y="24" width="30" height="218" rx="15" fill="#fff"/>
+<rect id="fill" x="55" y="232" width="30" height="0" fill="#991b2b" clip-path="url(#stemClip)"/>
+<path d="M55 231 H85 V252 H55Z" fill="#991b2b"/>
+<circle cx="70" cy="255" r="31" fill="#991b2b"/>
+<g class="tick" transform="translate(0 200.0000)" tabindex="0" role="button" aria-label="$100,000 milestone" aria-expanded="false">
+<rect class="hit" x="101" y="-12" width="25" height="24" rx="4" fill="transparent"/>
+<path class="tick-line" d="M107 0h12"/>
+<g class="tick-tip" aria-hidden="true"><rect x="124" y="-11" width="65" height="22" rx="5" fill="#991b2b"/><text x="156.5" y="4" text-anchor="middle" font-family="Arial,sans-serif" font-size="11" fill="white">$100,000</text></g>
+</g>
+<g class="tick" transform="translate(0 168.0000)" tabindex="0" role="button" aria-label="$200,000 milestone" aria-expanded="false">
+<rect class="hit" x="101" y="-12" width="25" height="24" rx="4" fill="transparent"/>
+<path class="tick-line" d="M107 0h12"/>
+<g class="tick-tip" aria-hidden="true"><rect x="124" y="-11" width="65" height="22" rx="5" fill="#991b2b"/><text x="156.5" y="4" text-anchor="middle" font-family="Arial,sans-serif" font-size="11" fill="white">$200,000</text></g>
+</g>
+<g class="tick" transform="translate(0 136.0000)" tabindex="0" role="button" aria-label="$300,000 milestone" aria-expanded="false">
+<rect class="hit" x="101" y="-12" width="25" height="24" rx="4" fill="transparent"/>
+<path class="tick-line" d="M107 0h12"/>
+<g class="tick-tip" aria-hidden="true"><rect x="124" y="-11" width="65" height="22" rx="5" fill="#991b2b"/><text x="156.5" y="4" text-anchor="middle" font-family="Arial,sans-serif" font-size="11" fill="white">$300,000</text></g>
+</g>
+<g class="tick" transform="translate(0 104.0000)" tabindex="0" role="button" aria-label="$400,000 milestone" aria-expanded="false">
+<rect class="hit" x="101" y="-12" width="25" height="24" rx="4" fill="transparent"/>
+<path class="tick-line" d="M107 0h12"/>
+<g class="tick-tip" aria-hidden="true"><rect x="124" y="-11" width="65" height="22" rx="5" fill="#991b2b"/><text x="156.5" y="4" text-anchor="middle" font-family="Arial,sans-serif" font-size="11" fill="white">$400,000</text></g>
+</g>
+<g class="tick" transform="translate(0 72.0000)" tabindex="0" role="button" aria-label="$500,000 milestone" aria-expanded="false">
+<rect class="hit" x="101" y="-12" width="25" height="24" rx="4" fill="transparent"/>
+<path class="tick-line" d="M107 0h12"/>
+<g class="tick-tip" aria-hidden="true"><rect x="124" y="-11" width="65" height="22" rx="5" fill="#991b2b"/><text x="156.5" y="4" text-anchor="middle" font-family="Arial,sans-serif" font-size="11" fill="white">$500,000</text></g>
+</g>
+<g class="tick" transform="translate(0 40.0000)" tabindex="0" role="button" aria-label="$600,000 milestone" aria-expanded="false">
+<rect class="hit" x="101" y="-12" width="25" height="24" rx="4" fill="transparent"/>
+<path class="tick-line" d="M107 0h12"/>
+<g class="tick-tip" aria-hidden="true"><rect x="124" y="-11" width="65" height="22" rx="5" fill="#991b2b"/><text x="156.5" y="4" text-anchor="middle" font-family="Arial,sans-serif" font-size="11" fill="white">$600,000</text></g>
+</g>
+</svg>
+<div class="readout" id="progress" role="progressbar" aria-label="Gift card sales toward the company goal" aria-valuemin="0" aria-valuemax="650000" aria-valuenow="0">
+<span class="label">TOTAL</span><strong class="total" id="total">$0</strong>
+<span class="percent" id="percent">0%</span>&nbsp;<span class="caption">of our goal</span>
+</div>
+</div>
+</div>
+</main>
+<script>
+// UPDATE ONLY THIS NUMBER with the combined sales total. No dollar sign or commas.
+const totalSales = 0;
+
+// Fixed campaign goal for 2026.
+const goal = 650000;
+const total = Number.isFinite(totalSales) ? Math.max(0, totalSales) : 0;
+const ratio = total / goal;
+const fillHeight = 208 * Math.min(1, ratio);
+const money = new Intl.NumberFormat('en-US', { style:'currency', currency:'USD', maximumFractionDigits:0 });
+// Truncate to one decimal so an unfinished goal never rounds up to 100%.
+const percentage = new Intl.NumberFormat('en-US', { maximumFractionDigits:1 }).format(Math.floor(ratio * 1000) / 10) + '%';
+document.getElementById('total').textContent = money.format(total);
+document.getElementById('percent').textContent = percentage;
+document.getElementById('fill').setAttribute('y', String(232 - fillHeight));
+document.getElementById('fill').setAttribute('height', String(fillHeight));
+const description = money.format(total) + ' toward our company goal of ' + money.format(goal) + '. ' + percentage + ' of goal.';
+document.getElementById('thermometerTitle').textContent = description;
+const progress = document.getElementById('progress');
+progress.setAttribute('aria-valuenow', String(Math.min(total, goal)));
+progress.setAttribute('aria-valuetext', description);
+// Milestone values are available on hover, keyboard focus, and tap.
+const ticks = [...document.querySelectorAll('.tick')];
+function closeTicks() { ticks.forEach(t => { t.classList.remove('is-open'); t.setAttribute('aria-expanded','false'); }); }
+ticks.forEach(tick => {
+  function toggle() { const open = !tick.classList.contains('is-open'); closeTicks(); if(open) { tick.classList.add('is-open'); tick.setAttribute('aria-expanded','true'); } }
+  tick.addEventListener('click', toggle);
+  tick.addEventListener('keydown', event => { if(event.key === 'Enter' || event.key === ' ') { event.preventDefault(); toggle(); } });
+});
+document.addEventListener('keydown', event => { if(event.key === 'Escape') { closeTicks(); if(document.activeElement?.matches('.tick')) document.activeElement.blur(); } });
+document.addEventListener('pointerdown', event => { if(!event.target.closest('.tick')) closeTicks(); });
+</script>
+</body>
+</html>
